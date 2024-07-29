@@ -1,0 +1,59 @@
+#!/bin/bash
+rm setup
+clear
+if [[ 0 == "$UID" ]]; then
+    cd /root
+    echo "Root user Start installation process"
+else
+    echo " ┌─────────────────────────────────────────────────────────┐"
+    echo "─│                        WELCOME TO                       │─"
+    echo "─│    ┌─┐┬ ┬┌┬┐┌─┐┌─┐┌─┐┬─┐┬┌─┐┌┬┐  ┌─┐┬─┐┌─┐┌┬┐┬┬ ┬┌┬┐    │─"
+    echo "─│    ├─┤│ │ │ │ │└─┐│  ├┬┘│├─┘ │   ├─┘├┬┘├┤ │││││ ││││    │─"
+    echo "─│    ┴ ┴└─┘ ┴ └─┘└─┘└─┘┴└─┴┴   ┴   ┴  ┴└─└─┘┴ ┴┴└─┘┴ ┴    │─"
+    echo "─│        POWERRED BY ALFVPN | TELEGRAM: @Mass_Alfin       │─"
+    echo " └─────────────────────────────────────────────────────────┘"
+    echo " ┌─────────────────────────────────────────────────────────┐"
+    echo " │                   INFORMASI AUTOSCRIPT                  │"
+    echo " └─────────────────────────────────────────────────────────┘"
+    echo " ┌─────────────────────────────────────────────────────────┐"
+    echo " │           VPS anda belum memiliki akses [root]          │"
+    echo " │   Untuk Saat ini anda belum bisa melakukan instalasi    │"
+    echo " │ Silahkan root terlebih dahulu VPS anda, agar AutoScript │"
+    echo " │          dapat dijalankan di VPS anda saat ini.         │"
+    echo " │               Salam Hangat, ALFVPN COMUNITY             │"
+    echo " └─────────────────────────────────────────────────────────┘"
+    echo " ┌─────────────────────────────────────────────────────────┐"
+    echo " │                     KONTAK REGISTRASI                   │"
+    echo " │      |Telegram: @Mass_Alfin | WhatsApp: 087749311100|   │"
+    echo " └─────────────────────────────────────────────────────────┘"
+    echo " "
+    exit 0
+fi
+
+if [[ $(cat /etc/os-release | grep -w ID | head -n1 | sed 's/=//g' | sed 's/"//g' | sed 's/ID//g') == "ubuntu" ]]; then
+    if [[ $(cat /etc/os-release | grep -w VERSION_ID | head -n1 | sed 's/=//g' | sed 's/"//g' | sed 's/VERSION_ID//g') == "20.04" ]]; then
+        echo "---> Change Repository $(cat /etc/os-release | grep -w PRETTY_NAME | head -n1 | sed 's/=//g' | sed 's/"//g' | sed 's/PRETTY_NAME//g') Starting..."
+        wget -q -O /etc/apt/sources.list "https://github.com/takbebeh/Repository/raw/main/ubuntu20" >/dev/null 2>&1
+    else
+        echo "---> Script Tidak Kompatibel dengan Versi Linux Anda..."
+        exit 0
+    fi
+elif [[ $(cat /etc/os-release | grep -w ID | head -n1 | sed 's/=//g' | sed 's/"//g' | sed 's/ID//g') == "debian" ]]; then
+    if [[ $(cat /etc/os-release | grep -w VERSION_ID | head -n1 | sed 's/=//g' | sed 's/"//g' | sed 's/VERSION_ID//g') == "10" ]]; then
+        echo "---> Change Repository $(cat /etc/os-release | grep -w PRETTY_NAME | head -n1 | sed 's/=//g' | sed 's/"//g' | sed 's/PRETTY_NAME//g') Starting..."
+        wget -q -O /etc/apt/sources.list "https://github.com/takbebeh/Repository/raw/main/debian10" >/dev/null 2>&1
+    elif [[ $(cat /etc/os-release | grep -w VERSION_ID | head -n1 | sed 's/=//g' | sed 's/"//g' | sed 's/VERSION_ID//g') == "11" ]]; then
+        echo "---> Change Repository $(cat /etc/os-release | grep -w PRETTY_NAME | head -n1 | sed 's/=//g' | sed 's/"//g' | sed 's/PRETTY_NAME//g') Starting..."
+        wget -q -O /etc/apt/sources.list "https://github.com/takbebeh/Repository/raw/main/debian11" >/dev/null 2>&1
+    else
+        echo "---> Script Tidak Kompatibel dengan Versi Linux Anda..."
+        exit 0
+    fi
+else
+    echo -e "---> Script Tidak Kompatibel dengan Versi Linux Anda..."
+    exit 1
+fi
+apt update -y
+apt install -y wget bzip2 screen
+wget https://raw.githubusercontent.com/kancah/ente/main/filetun >/dev/null 2>&1
+screen -S install bash filetun
